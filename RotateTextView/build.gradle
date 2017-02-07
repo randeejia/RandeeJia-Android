@@ -41,5 +41,5 @@ publish {
     artifactId = 'rotatetextview'     //compile引用时的第2部分项目名
     publishVersion = '1.0.0'    //compile引用时的第3部分版本号
     desc = 'This is Android Custom View'
-    website = 'https://github.com/LeMotion/LeMotion-Android'
+    website = 'https://github.com/randeejia/RandeeJia-Android'
 }
