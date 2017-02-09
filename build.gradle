@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        maven{ url 'https://dl.bintray.com/randeejia/maven'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
@@ -16,6 +17,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven{ url 'https://dl.bintray.com/randeejia/maven'}
     }
 
     //加上这些

@@ -6,7 +6,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -35,8 +35,8 @@ dependencies {
 publish {
     userOrg = 'randeejia'      //bintray注册的用户名
     groupId = 'cn.randeejia'         //compile引用时的第1部分groupId
-    artifactId = 'rotatetextview'     //compile引用时的第2部分项目名
-    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
-    desc = 'This is Android Custom View'
+    artifactId = 'modifyuseravatar'     //compile引用时的第2部分项目名
+    publishVersion = '1.0.1'    //compile引用时的第3部分版本号
+    desc = 'Modify User Avatar'
     website = 'https://github.com/randeejia/RandeeJia-Android'
 }
