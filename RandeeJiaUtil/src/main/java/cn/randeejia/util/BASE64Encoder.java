@@ -1,5 +1,7 @@
 package cn.randeejia.util;
-
+/**
+ * Created by randeejia on 2017/2/9.
+ */
 public class BASE64Encoder {
 	private static final char last2byte = (char) Integer
 			.parseInt("00000011", 2);

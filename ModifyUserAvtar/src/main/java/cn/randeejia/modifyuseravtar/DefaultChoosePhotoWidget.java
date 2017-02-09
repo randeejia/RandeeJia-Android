@@ -64,7 +64,7 @@ public class DefaultChoosePhotoWidget extends PopupWindow implements View.OnClic
         if (viewId == R.id.text_take_photo){
             AppUtil.goToCamera((FragmentActivity) mContext,AppUtil.REQUEST_TAKE_PHOTO);
         }else if (viewId == R.id.text_choose_from_album){
-            AppUtil.goToAlbumOfSystem((FragmentActivity) mContext);
+            AppUtil.goToAlbumOfSystem((FragmentActivity) mContext,AppUtil.REQUEST_OPEN_ALBUM);
         }
         dismiss();
     }

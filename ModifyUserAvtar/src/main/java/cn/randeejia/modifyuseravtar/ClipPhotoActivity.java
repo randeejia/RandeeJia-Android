@@ -23,8 +23,9 @@ import android.widget.ProgressBar;
 import java.lang.reflect.Field;
 import java.util.Date;
 
-import cn.lemotion.lemotionutil.LogUtil;
-import cn.lemotion.lemotionutil.ToastUtil;
+import cn.randeejia.util.LogUtil;
+import cn.randeejia.util.StorageUtil;
+import cn.randeejia.util.ToastUtil;
 
 /**
  * 裁剪并保存图片
@@ -114,10 +115,12 @@ public class ClipPhotoActivity extends AppCompatActivity implements View.OnClick
 
             Intent intent = new Intent();
             Bitmap fianBitmap = getBitmap();
-            String photoName = String.valueOf(new Date().getTime());
+
+            StringBuffer stringBuffer = new StringBuffer(String.valueOf(new Date().getTime()));
+            stringBuffer.append(".jpg");
             if (fianBitmap != null) {
-                if (ImageUtil.savePhotoToSDCard(this,fianBitmap)) {
-                    intent.putExtra(PHOTO_NAME, photoName);
+                if (StorageUtil.savePhotoToSDCard(this,stringBuffer.toString(),fianBitmap)) {
+                    intent.putExtra(PHOTO_NAME, stringBuffer.toString());
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {

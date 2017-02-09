@@ -1,5 +1,6 @@
 package cn.randeejia.modifyuseravtar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,7 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+
+import cn.randeejia.util.StorageUtil;
 
 /**
  * Created by randeejia on 2017/2/5.
@@ -23,23 +25,49 @@ import java.util.Date;
 public class AppUtil {
 
     private static final String TAG = "AppUtil";
+    private static final String AVATAR_NAME = "avatar.jpg";
 
     public static final int REQUEST_TAKE_PHOTO = 10001;
     public static final int REQUEST_OPEN_ALBUM = 10002;
+
     public static final int REQUEST_CLIP_PHOTO = 10003;
+
+
+    private static AppCallback appCallback;
+
+    public static void setAppCallback(AppCallback appCallback){
+        AppUtil.appCallback = appCallback;
+    }
 
     /**
      * 打开系统相册
      *
      * @param activity
      */
-    public static void goToAlbumOfSystem(FragmentActivity activity) {
+    public static void goToAlbumOfSystem(FragmentActivity activity, int requestCode) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        activity.startActivityForResult(intent, REQUEST_OPEN_ALBUM);
+        activity.startActivityForResult(intent, requestCode);
     }
+
+    /**
+     * 去相机拍照
+     *
+     * @param activity
+     * @param requestCode
+     */
+    public static void goToCamera(FragmentActivity activity, int requestCode) {
+        File file = StorageUtil.getImageFile(activity, AVATAR_NAME);
+        if (!file.exists()) {
+            return;
+        }
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        activity.startActivityForResult(intent, requestCode);
+    }
+
 
     public static Bitmap getBitmapFromUri(Context context, Uri uri) {
         try {
@@ -146,26 +174,6 @@ public class AppUtil {
     }
 
     /**
-     * 去相机拍照
-     *
-     * @param activity
-     * @param requestCode
-     */
-    public static void goToCamera(FragmentActivity activity, int requestCode) {
-        String picName = String.valueOf(new Date().getTime());
-        File file = new File(ImageUtil.getAppDirectory(activity));
-        if (!file.isDirectory()) {
-            file.mkdirs();
-        }
-        MyPreference.getInstance(activity).setImageCache(file.getAbsolutePath().toString());
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(
-                ImageUtil.getAppDirectory(activity), picName)));
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-
-    /**
      * 裁剪图片
      *
      * @param activity
@@ -175,5 +183,47 @@ public class AppUtil {
         Intent intent = new Intent(activity, ClipPhotoActivity.class);
         intent.setData(uri);
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 裁剪图片
+     *
+     * @param data
+     * @param requestCode
+     */
+    public static void goToClipPhoto(FragmentActivity activity, Intent data, int requestCode, boolean isFromCamera) {
+        Uri uri = null;
+        if (isFromCamera) {
+            File imageFile = StorageUtil.getImageFile(activity, AVATAR_NAME);
+            if (!imageFile.exists()) {
+                return;
+            }
+            uri = Uri.fromFile(imageFile);
+        } else {
+            if (data != null) {
+                uri = data.getData();
+            }
+        }
+        if (uri != null) {
+            AppUtil.clipPhotoActivity(activity, uri, requestCode);
+        }
+    }
+
+    public static void onActivityResult(FragmentActivity activity, int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppUtil.REQUEST_TAKE_PHOTO) {
+            AppUtil.goToClipPhoto(activity, data, AppUtil.REQUEST_CLIP_PHOTO, true);
+        } else if (requestCode == AppUtil.REQUEST_OPEN_ALBUM) {
+            AppUtil.goToClipPhoto(activity, data, AppUtil.REQUEST_CLIP_PHOTO, false);
+        } else if (requestCode == AppUtil.REQUEST_CLIP_PHOTO) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    String picName = data.getStringExtra(ClipPhotoActivity.PHOTO_NAME);
+                    File file = StorageUtil.getImageFile(activity, picName);
+                    if (appCallback !=null){
+                        appCallback.onCallback(file);
+                    }
+                }
+            }
+        }
     }
 }

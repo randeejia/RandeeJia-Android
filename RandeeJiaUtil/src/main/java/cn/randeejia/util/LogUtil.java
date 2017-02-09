@@ -2,17 +2,21 @@ package cn.randeejia.util;
 
 import android.text.TextUtils;
 import android.util.Log;
-
+/**
+ * Created by randeejia on 2017/2/9.
+ */
 public class LogUtil {
 
 	private static boolean debug = BuildConfig.DEBUG;
 
-	public static String makeLogTag(Class<?> cls) {
-		return "LeMotionUtil_" + cls.getSimpleName();
+	public static String makeLogTag(String prefixName,Class<?> cls) {
+		StringBuffer stringBuffer = new StringBuffer(prefixName);
+		stringBuffer.append(cls.getSimpleName());
+		return stringBuffer.toString();
 	}
 
-	public static boolean isDebug() {
-		return debug;
+	public static String makeLogTag(Class<?> cls) {
+		return cls.getSimpleName();
 	}
 
 	public static void v(String tag, String msg) {

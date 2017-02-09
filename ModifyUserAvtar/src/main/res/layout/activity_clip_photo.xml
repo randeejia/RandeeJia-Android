@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:scaleType="matrix" />
 
-    <cn.lemotion.modifyuseravatar.ClipView
+    <cn.randeejia.modifyuseravtar.ClipView
         android:id="@+id/clip_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
