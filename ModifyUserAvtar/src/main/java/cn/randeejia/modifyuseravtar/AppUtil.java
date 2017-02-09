@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -41,8 +40,6 @@ public class AppUtil {
 
     /**
      * 打开系统相册
-     *
-     * @param activity
      */
     public static void goToAlbumOfSystem(FragmentActivity activity, int requestCode) {
         Intent intent = new Intent();
@@ -54,9 +51,6 @@ public class AppUtil {
 
     /**
      * 去相机拍照
-     *
-     * @param activity
-     * @param requestCode
      */
     public static void goToCamera(FragmentActivity activity, int requestCode) {
         File file = StorageUtil.getImageFile(activity, AVATAR_NAME);
@@ -162,22 +156,19 @@ public class AppUtil {
      * @param height
      * @return
      */
-    public static Bitmap zoomBitmap(Bitmap bitmap, int width, int height) {
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
-        Matrix matrix = new Matrix();
-        float scaleWidth = ((float) width / w);
-        float scaleHeight = ((float) height / h);
-        matrix.postScale(scaleWidth, scaleHeight);// 利用矩阵进行缩放不会造成内存溢出
-        Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
-        return newbmp;
-    }
+//    public static Bitmap zoomBitmap(Bitmap bitmap, int width, int height) {
+//        int w = bitmap.getWidth();
+//        int h = bitmap.getHeight();
+//        Matrix matrix = new Matrix();
+//        float scaleWidth = ((float) width / w);
+//        float scaleHeight = ((float) height / h);
+//        matrix.postScale(scaleWidth, scaleHeight);// 利用矩阵进行缩放不会造成内存溢出
+//        Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+//        return newbmp;
+//    }
 
     /**
      * 裁剪图片
-     *
-     * @param activity
-     * @param requestCode
      */
     public static void clipPhotoActivity(FragmentActivity activity, Uri uri, int requestCode) {
         Intent intent = new Intent(activity, ClipPhotoActivity.class);
@@ -187,9 +178,6 @@ public class AppUtil {
 
     /**
      * 裁剪图片
-     *
-     * @param data
-     * @param requestCode
      */
     public static void goToClipPhoto(FragmentActivity activity, Intent data, int requestCode, boolean isFromCamera) {
         Uri uri = null;

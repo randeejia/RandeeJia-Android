@@ -156,6 +156,8 @@ public class ClipPhotoActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * 横向、纵向居中
+     * @param horizontal 横向居中
+     * @param vertical 纵向居中
      */
     protected void center(boolean horizontal, boolean vertical) {
 
