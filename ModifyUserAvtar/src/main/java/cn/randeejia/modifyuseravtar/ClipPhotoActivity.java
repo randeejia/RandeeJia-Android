@@ -15,10 +15,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -40,7 +40,7 @@ public class ClipPhotoActivity extends AppCompatActivity implements View.OnClick
 
     private ImageView mScreenShotImg;
     private ImageButton mCancelBtn;
-    private Button mOkBtn;
+    private TextView mOkTextView;
     private ImageButton mRefreshBtn;
     private ClipView mClipview;
     private ProgressBar mLoadingPhoto;
@@ -80,14 +80,14 @@ public class ClipPhotoActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_clip_photo);
 
         initView();
-        registListeners();
+        registerListeners();
         initViewTask();
     }
 
     private void initView() {
         mScreenShotImg = (ImageView) findViewById(R.id.imageView);
         mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn);
-        mOkBtn = (Button) findViewById(R.id.ensure_btn);
+        mOkTextView = (TextView) findViewById(R.id.ensure_btn);
         mRefreshBtn = (ImageButton) findViewById(R.id.rotate_btn);
         mClipview = (ClipView) findViewById(R.id.clip_view);
         mLoadingPhoto = (ProgressBar) findViewById(R.id.loading_photo);
@@ -98,9 +98,9 @@ public class ClipPhotoActivity extends AppCompatActivity implements View.OnClick
         mScreenHeight = dm.heightPixels;
     }
 
-    private void registListeners() {
+    private void registerListeners() {
         mCancelBtn.setOnClickListener(this);
-        mOkBtn.setOnClickListener(this);
+        mOkTextView.setOnClickListener(this);
         mRefreshBtn.setOnClickListener(this);
         mScreenShotImg.setOnTouchListener(this);
     }

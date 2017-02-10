@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用色值-->
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_gray">#888888</color>
+    <color name="color_light_gray">#F8F8F8</color>
+    <color name="color_white_dark">#BBBBBB</color>
+
+    <!-- Divide Line Color -->
+    <color name="line_color_gray">#F1F1F1</color>
+</resources>

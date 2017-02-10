@@ -34,7 +34,7 @@
             android:textColor="@android:color/white"
             android:textSize="15sp" />
 
-        <Button
+        <TextView
             android:id="@+id/ensure_btn"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
@@ -42,8 +42,9 @@
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dip"
             android:text="@string/ok"
+            android:gravity="center"
             android:background="@drawable/shape_bg_radius_green"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="15sp" />
         <ImageButton
             android:id="@+id/rotate_btn"
