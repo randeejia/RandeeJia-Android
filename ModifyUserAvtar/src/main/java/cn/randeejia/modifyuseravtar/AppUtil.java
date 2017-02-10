@@ -54,9 +54,6 @@ public class AppUtil {
      */
     public static void goToCamera(FragmentActivity activity, int requestCode) {
         File file = StorageUtil.getImageFile(activity, AVATAR_NAME);
-        if (!file.exists()) {
-            return;
-        }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         activity.startActivityForResult(intent, requestCode);
