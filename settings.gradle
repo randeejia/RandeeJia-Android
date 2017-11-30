@@ -1,1 +1,1 @@
-include ':app', ':RotateTextView', ':RandeeJiaUtil', ':ModifyUserAvtar'
+include ':app', ':RotateTextView', ':RandeeJiaUtil', ':ModifyUserAvtar', ':galleryview'

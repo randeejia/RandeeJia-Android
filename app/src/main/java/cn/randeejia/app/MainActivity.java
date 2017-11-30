@@ -23,14 +23,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
     public void onClick(View view){
-        DefaultChoosePhotoWidget choosePhotoWidget = new DefaultChoosePhotoWidget(this);
-        choosePhotoWidget.show();
-        AppUtil.setAppCallback(new AppCallback() {
-            @Override
-            public void onCallback(File file) {
-                ToastUtil.showToast(MainActivity.this,"保存图品");
-            }
-        });
+//        DefaultChoosePhotoWidget choosePhotoWidget = new DefaultChoosePhotoWidget(this);
+//        choosePhotoWidget.show();
+//        AppUtil.setAppCallback(new AppCallback() {
+//            @Override
+//            public void onCallback(File file) {
+//                ToastUtil.showToast(MainActivity.this,"保存图品");
+//            }
+//        });
+        startActivity(new Intent(this,GalleryDemoActivity.class));
     }
 
     @Override
