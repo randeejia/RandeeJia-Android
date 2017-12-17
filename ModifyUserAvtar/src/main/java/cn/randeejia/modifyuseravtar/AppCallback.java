@@ -8,5 +8,10 @@ import java.io.File;
 
 public interface AppCallback {
 
+    /**
+     * 取消拍照或从相册选择照片
+     */
+    void cancelChoicePicture();
+
     void onCallback(File file);
 }

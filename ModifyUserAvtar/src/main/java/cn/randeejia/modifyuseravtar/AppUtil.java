@@ -40,6 +40,9 @@ public class AppUtil {
 
     /**
      * 打开系统相册
+     *
+     * @param activity
+     * @param requestCode
      */
     public static void goToAlbumOfSystem(FragmentActivity activity, int requestCode) {
         Intent intent = new Intent();
@@ -51,6 +54,9 @@ public class AppUtil {
 
     /**
      * 去相机拍照
+     *
+     * @param activity
+     * @param requestCode
      */
     public static void goToCamera(FragmentActivity activity, int requestCode) {
         File file = StorageUtil.getImageFile(activity, AVATAR_NAME);
@@ -166,6 +172,9 @@ public class AppUtil {
 
     /**
      * 裁剪图片
+     * @param activity
+     * @param uri
+     * @param requestCode
      */
     public static void clipPhotoActivity(FragmentActivity activity, Uri uri, int requestCode) {
         Intent intent = new Intent(activity, ClipPhotoActivity.class);
@@ -175,6 +184,10 @@ public class AppUtil {
 
     /**
      * 裁剪图片
+     * @param activity
+     * @param data
+     * @param requestCode
+     * @param isFromCamera
      */
     public static void goToClipPhoto(FragmentActivity activity, Intent data, int requestCode, boolean isFromCamera) {
         Uri uri = null;
@@ -191,9 +204,17 @@ public class AppUtil {
         }
         if (uri != null) {
             AppUtil.clipPhotoActivity(activity, uri, requestCode);
+        }else{
+            activity.finish();
         }
     }
 
+    /**
+     * @param activity
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public static void onActivityResult(FragmentActivity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == AppUtil.REQUEST_TAKE_PHOTO) {
             AppUtil.goToClipPhoto(activity, data, AppUtil.REQUEST_CLIP_PHOTO, true);
@@ -208,7 +229,22 @@ public class AppUtil {
                         appCallback.onCallback(file);
                     }
                 }
+            }else{
+                if (appCallback !=null){
+                    appCallback.cancelChoicePicture();
+                }
             }
+        }
+    }
+
+    /**
+     * 删除当前选择的图片
+     * @param activity
+     */
+    public static void deleteCacheFile(FragmentActivity activity){
+        File imageFile = StorageUtil.getImageFile(activity, AVATAR_NAME);
+        if (imageFile.exists()) {
+            imageFile.delete();
         }
     }
 }
