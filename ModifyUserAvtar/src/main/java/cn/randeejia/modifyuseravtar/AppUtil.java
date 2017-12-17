@@ -193,10 +193,9 @@ public class AppUtil {
         Uri uri = null;
         if (isFromCamera) {
             File imageFile = StorageUtil.getImageFile(activity, AVATAR_NAME);
-            if (!imageFile.exists()) {
-                return;
+            if (imageFile.exists()) {
+                uri = Uri.fromFile(imageFile);
             }
-            uri = Uri.fromFile(imageFile);
         } else {
             if (data != null) {
                 uri = data.getData();
@@ -205,7 +204,9 @@ public class AppUtil {
         if (uri != null) {
             AppUtil.clipPhotoActivity(activity, uri, requestCode);
         }else{
-            activity.finish();
+            if (appCallback !=null){
+                appCallback.cancelChoicePicture();
+            }
         }
     }
 
