@@ -218,9 +218,21 @@ public class AppUtil {
      */
     public static void onActivityResult(FragmentActivity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == AppUtil.REQUEST_TAKE_PHOTO) {
-            AppUtil.goToClipPhoto(activity, data, AppUtil.REQUEST_CLIP_PHOTO, true);
+            if (resultCode == Activity.RESULT_OK) {
+                AppUtil.goToClipPhoto(activity, data, AppUtil.REQUEST_CLIP_PHOTO, true);
+            }else{
+                if (appCallback !=null){
+                    appCallback.cancelChoicePicture();
+                }
+            }
         } else if (requestCode == AppUtil.REQUEST_OPEN_ALBUM) {
-            AppUtil.goToClipPhoto(activity, data, AppUtil.REQUEST_CLIP_PHOTO, false);
+            if (resultCode == Activity.RESULT_OK) {
+                AppUtil.goToClipPhoto(activity, data, AppUtil.REQUEST_CLIP_PHOTO, false);
+            }else{
+                if (appCallback !=null){
+                    appCallback.cancelChoicePicture();
+                }
+            }
         } else if (requestCode == AppUtil.REQUEST_CLIP_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
