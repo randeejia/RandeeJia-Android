@@ -5,12 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import java.io.File;
-
-import cn.randeejia.modifyuseravtar.AppCallback;
 import cn.randeejia.modifyuseravtar.AppUtil;
-import cn.randeejia.modifyuseravtar.DefaultChoosePhotoWidget;
-import cn.randeejia.util.ToastUtil;
 
 public class MainActivity extends AppCompatActivity {
 
