@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -30,6 +31,7 @@ public class DownloadService extends IntentService{
 
     private static DownloadManager.DownloadCallback sCallback;
     private ConnectivityManager mConnectMgr;
+    private Call newCall;
 
     // 重点:发生从wifi切换到4g时,提示用户是否需要继续播放,此处有两种做法:
     private BroadcastReceiver connectionReceiver = new BroadcastReceiver() {
@@ -41,7 +43,7 @@ public class DownloadService extends IntentService{
             NetworkInfo wifiNetInfo = mConnectMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             if (mobNetInfo.isConnected() && !wifiNetInfo.isConnected()) {
-
+                cancelDownload();
             }
         }
     };
@@ -50,8 +52,9 @@ public class DownloadService extends IntentService{
     public DownloadService() {
         super(TAG);
         mConnectMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-
-
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(connectionReceiver,intentFilter);
     }
 
     @Override
@@ -64,10 +67,17 @@ public class DownloadService extends IntentService{
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(connectionReceiver);
+    }
+
     private void download(final DownloadBean downloadBean){
         Request request = new Request.Builder().url(downloadBean.getDownloadUrl()).build();
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        newCall = okHttpClient.newCall(request);
+        newCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -143,5 +153,9 @@ public class DownloadService extends IntentService{
 
     public static void setDownloadCallback(DownloadManager.DownloadCallback callback){
         sCallback = callback;
+    }
+
+    private void cancelDownload(){
+        newCall.cancel();
     }
 }
