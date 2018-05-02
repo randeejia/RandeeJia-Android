@@ -49,7 +49,7 @@ publish {
     userOrg = 'randeejia'      //bintray注册的用户名
     groupId = 'cn.randeejia'         //compile引用时的第1部分groupId
     artifactId = 'upgrade'     //compile引用时的第2部分项目名
-    publishVersion = '0.1'    //compile引用时的第3部分版本号
+    publishVersion = '0.3'    //compile引用时的第3部分版本号
     desc = 'App Upgrade'
     website = 'https://github.com/randeejia/RandeeJia-Android'
 }

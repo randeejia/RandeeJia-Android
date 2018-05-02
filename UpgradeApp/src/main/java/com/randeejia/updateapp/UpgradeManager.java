@@ -91,7 +91,7 @@ public class UpgradeManager {
 
 
     public boolean isCanUpgrade(){
-        if (mUpdateBean !=null && mUpdateBean.versionCode > BuildConfig.VERSION_CODE){
+        if (mUpdateBean.versionCode > BuildConfig.VERSION_CODE){
             return true;
         }
         return false;
@@ -107,13 +107,21 @@ public class UpgradeManager {
      * @param callback 升级回调
      */
     public void upgrade(UpgradeCallback callback) {
-        this.mUpgradeCallback = callback;
 
-        if (mUpgradeCallback !=null){
-            mUpgradeCallback.onStart();
+        if (mUpdateBean == null){
+            throw new RuntimeException("Please Call " +
+                    "UpgradeManager.setUpdateBean(UpdateBean updateBean) " +
+                    "method and set UpdateBean Object");
         }
 
         if (isCanUpgrade()){
+
+            if (mUpgradeCallback !=null){
+                mUpgradeCallback.onStart();
+            }
+
+            this.mUpgradeCallback = callback;
+
             if (!mOutputFile.exists()){//如果文件不存在，则开始下载Apk
                 download.start(new DownloadManager.DownloadCallback() {
 
