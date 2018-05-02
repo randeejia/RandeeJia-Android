@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.randeejia.updateapp.bean.DownloadBean;
 
@@ -51,7 +52,7 @@ public class DownloadService extends IntentService{
 
     public DownloadService() {
         super(TAG);
-        mConnectMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        mConnectMgr = (ConnectivityManager)getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(connectionReceiver,intentFilter);
@@ -70,6 +71,9 @@ public class DownloadService extends IntentService{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (newCall !=null && newCall.isExecuted()){
+            newCall.isCanceled();
+        }
         unregisterReceiver(connectionReceiver);
     }
 
@@ -80,7 +84,7 @@ public class DownloadService extends IntentService{
         newCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Log.e(TAG,e.getLocalizedMessage());
 //                FileUtils.deleteFile(outFile);
                 if (sCallback !=null){ // 下载失败
                     sCallback.onFailed(e.getLocalizedMessage());
@@ -91,7 +95,7 @@ public class DownloadService extends IntentService{
             }
             @Override
             public void onResponse(Call call, Response response) {
-
+                Log.e(TAG,"onResponse success");
                 InputStream is = null;
                 byte[] buf = new byte[2048];
                 int len = 0;

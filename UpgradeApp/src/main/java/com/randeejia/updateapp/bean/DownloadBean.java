@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by randeejia on 2017/1/14.
+ * 下载信息
  */
 
 public class DownloadBean implements Parcelable {

@@ -77,7 +77,7 @@ public class UpgradeManager {
 
     public static UpgradeManager getInstance(){
         if (mUpgradeManager == null){
-            throw new RuntimeException("Please Call init() method, initialise lib.");
+            throw new RuntimeException("Please Call UpgradeManager.init() method, initialise lib.");
         }
         return mUpgradeManager;
     }

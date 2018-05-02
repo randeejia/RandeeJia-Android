@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -28,7 +29,34 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     implementation 'com.squareup.okhttp3:okhttp:3.4.2'
 
+    /**
+     * 单元测试依赖库
+     */
+
+    // Required for local unit tests (JUnit 4 framework)
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
+
+
+    // Required for instrumented tests
+    androidTestImplementation "com.android.support:support-annotations:$rootProject.ext.supportLibraryVersion"
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.testEspressoVersion"
+    androidTestImplementation "com.android.support.test:rules:$rootProject.ext.testRunnerVersion"
+
+    // Optional -- Hamcrest library
+    androidTestImplementation "org.hamcrest:hamcrest-library:$rootProject.ext.hamcrestVersion"
+
+
+
+
+
+
+
+}
+publish {
+    userOrg = 'randeejia'      //bintray注册的用户名
+    groupId = 'cn.randeejia'         //compile引用时的第1部分groupId
+    artifactId = 'upgrade'     //compile引用时的第2部分项目名
+    publishVersion = '0.1'    //compile引用时的第3部分版本号
+    desc = 'App Upgrade'
+    website = 'https://github.com/randeejia/RandeeJia-Android'
 }

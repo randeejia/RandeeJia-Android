@@ -1,26 +1,39 @@
-package cn.randeejia.app;
+package com.randeejia.updateapp;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-import com.randeejia.updateapp.UpgradeManager;
 import com.randeejia.updateapp.bean.UpdateBean;
 
-public class MainActivity extends AppCompatActivity {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    private static final String TAG = "MainActivity";
+import static org.junit.Assert.*;
 
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class UpgradeManagerAndroidUnitTest {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public static final String TAG = "UpgradeManagerAndroidUnitTest";
+    @Before
+    public void init() {
+        // Context of the app under test.
+        Context appContext = InstrumentationRegistry.getTargetContext();
         UpdateBean updateBean = new UpdateBean("http://dl001.liqucn.com/upload/2014/shenghuo/cn.wecook.app_4.2.0_liqucn.com.apk",2);
-        UpgradeManager.init(this,updateBean);
+        UpgradeManager.init(appContext,updateBean);
+    }
 
-
+    @Test
+    public void testUpgrade() {
         UpgradeManager.getInstance().upgrade(new UpgradeManager.UpgradeCallback() {
             @Override
             public void onStart() {
@@ -52,10 +65,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG,"onEnd");
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
