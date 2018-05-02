@@ -44,13 +44,6 @@ dependencies {
 
     // Optional -- Hamcrest library
     androidTestImplementation "org.hamcrest:hamcrest-library:$rootProject.ext.hamcrestVersion"
-
-
-
-
-
-
-
 }
 publish {
     userOrg = 'randeejia'      //bintray注册的用户名

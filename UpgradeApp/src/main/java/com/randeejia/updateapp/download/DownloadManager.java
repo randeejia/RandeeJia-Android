@@ -34,6 +34,7 @@ public class DownloadManager implements IDownload {
 
         /**
          * 下载失败
+         * @param errMsg 异常信息
          */
         void onFailed(String errMsg);
 

@@ -28,6 +28,9 @@ public class UpgradeManager {
     private UpgradeCallback mUpgradeCallback;
     private IDownload download;
 
+    /**
+     * 升级回调接口
+     */
     public interface UpgradeCallback{
 
         /**
@@ -49,6 +52,7 @@ public class UpgradeManager {
         void onSuccess();
         /**
          * 升级失败
+         * @param errMsg 异常信息
          */
         void onFailed(String errMsg);
         /**
@@ -96,6 +100,8 @@ public class UpgradeManager {
      * 第一步：判断是否能升级
      *
      * 第二步：如果能升级，判断app是否存在，如果存在则提示用户安装，如果不存在则下载App再提示用户安装
+     *
+     * @param callback 升级回调
      */
     public void upgrade(UpgradeCallback callback) {
         this.mUpgradeCallback = callback;
