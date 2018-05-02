@@ -24,7 +24,7 @@ public class UpgradeManager {
     private Context mContext;
 
     private static UpgradeManager mUpgradeManager;
-    private UpdateBean updateBean;
+    private UpdateBean mUpdateBean;
     private UpgradeCallback mUpgradeCallback;
     private IDownload download;
 
@@ -62,21 +62,24 @@ public class UpgradeManager {
 
     }
 
-    private UpgradeManager(Context context,UpdateBean updateBean) {
+    private UpgradeManager(Context context) {
         this.mContext = context;
-        this.updateBean = updateBean;
+    }
+
+    public static void init(Context context){
+        if (mUpgradeManager ==null){
+            mUpgradeManager = new UpgradeManager(context);
+        }
+    }
+
+    public void setUpdateBean(UpdateBean updateBean){
+        this.mUpdateBean = updateBean;
 
         mOutputFile = getDownloadApk(updateBean.getNameFromUrl());
 
-        DownloadBean downloadBean = new DownloadBean(updateBean.updateUrl,mOutputFile.getAbsolutePath());
+        DownloadBean downloadBean = new DownloadBean(mUpdateBean.updateUrl,mOutputFile.getAbsolutePath());
 
-        download = DownloadManager.getInstance(context,downloadBean);
-    }
-
-    public static void init(Context context,UpdateBean updateBean){
-        if (mUpgradeManager ==null){
-            mUpgradeManager = new UpgradeManager(context,updateBean);
-        }
+        download = DownloadManager.getInstance(mContext,downloadBean);
     }
 
     public static UpgradeManager getInstance(){
@@ -88,7 +91,7 @@ public class UpgradeManager {
 
 
     public boolean isCanUpgrade(){
-        if (updateBean !=null && updateBean.versionCode > BuildConfig.VERSION_CODE){
+        if (mUpdateBean !=null && mUpdateBean.versionCode > BuildConfig.VERSION_CODE){
             return true;
         }
         return false;
