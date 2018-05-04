@@ -13,16 +13,15 @@ import android.os.Parcelable
  * @param currentFileSize 当前文件大小
  * @param totalFileSize 文件总大小
  */
-data class DownloadBean(var downloadUrl:String,var outputPath:String
-                        ,var progress:Int,var currentFileSize:Long
-                        ,var totalFileSize:Long):Parcelable{
+data class DownloadBean(var downloadUrl:String,var outputPath:String):Parcelable{
+
+     var progress:Int = 0
+     var currentFileSize:Long = 0
+     var totalFileSize:Long = 0
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
-            parcel.readString(),
-            parcel.readInt(),
-            parcel.readLong(),
-            parcel.readLong())
+            parcel.readString())
 
     fun getDownloadFileNameFromUrl():String{
         return downloadUrl.substring(downloadUrl.lastIndexOf("/") + 1)
