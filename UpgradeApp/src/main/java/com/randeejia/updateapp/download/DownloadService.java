@@ -71,9 +71,7 @@ public class DownloadService extends IntentService{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (newCall !=null && newCall.isExecuted()){
-            newCall.isCanceled();
-        }
+        cancelDownload();
         unregisterReceiver(connectionReceiver);
     }
 
@@ -160,6 +158,8 @@ public class DownloadService extends IntentService{
     }
 
     private void cancelDownload(){
-        newCall.cancel();
+        if (newCall !=null && newCall.isExecuted()){
+            newCall.isCanceled();
+        }
     }
 }

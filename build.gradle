@@ -1,6 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    ext.kotlin_version = '1.2.41'
+
+
     repositories {
         jcenter()
         maven{ url 'https://dl.bintray.com/randeejia/maven'}
@@ -12,6 +16,8 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath 'com.novoda:bintray-release:0.8.1'
+
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -44,7 +50,6 @@ ext {
 
     // App dependencies
     supportLibraryVersion = '27.1.1'
-
 
     // Unit Test
     junitVersion = '4.12'

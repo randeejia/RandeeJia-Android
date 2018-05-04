@@ -17,9 +17,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        UpdateBean updateBean = new UpdateBean("http://dl001.liqucn.com/upload/2014/shenghuo/cn.wecook.app_4.2.0_liqucn.com.apk",2);
-        UpgradeManager.init(this,updateBean);
 
+        UpgradeManager.init(this);
+
+        UpdateBean updateBean = new UpdateBean("http://dl001.liqucn.com/upload/2014/shenghuo/cn.wecook.app_4.2.0_liqucn.com.apk",2);
+        UpgradeManager.getInstance().setUpdateBean(updateBean);
 
         UpgradeManager.getInstance().upgrade(new UpgradeManager.UpgradeCallback() {
             @Override

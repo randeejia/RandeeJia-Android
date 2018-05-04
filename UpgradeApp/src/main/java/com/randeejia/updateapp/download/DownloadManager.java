@@ -68,12 +68,6 @@ public class DownloadManager implements IDownload {
         startService();
     }
 
-
-    @Override
-    public void cancel() {
-        stopService();
-    }
-
     @Override
     public void stop() {
         stopService();
