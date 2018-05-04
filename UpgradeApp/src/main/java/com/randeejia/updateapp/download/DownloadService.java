@@ -31,31 +31,10 @@ public class DownloadService extends IntentService{
     public static final String DOWNLOAD_BEAN = "download_bean";
 
     private static DownloadManager.DownloadCallback sCallback;
-    private ConnectivityManager mConnectMgr;
     private Call newCall;
-
-    // 重点:发生从wifi切换到4g时,提示用户是否需要继续播放,此处有两种做法:
-    private BroadcastReceiver connectionReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            NetworkInfo mobNetInfo = mConnectMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-            NetworkInfo wifiNetInfo = mConnectMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-            if (mobNetInfo.isConnected() && !wifiNetInfo.isConnected()) {
-                cancelDownload();
-            }
-        }
-    };
-
 
     public DownloadService() {
         super(TAG);
-        mConnectMgr = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(connectionReceiver,intentFilter);
     }
 
     @Override
@@ -72,7 +51,6 @@ public class DownloadService extends IntentService{
     public void onDestroy() {
         super.onDestroy();
         cancelDownload();
-        unregisterReceiver(connectionReceiver);
     }
 
     private void download(final DownloadBean downloadBean){

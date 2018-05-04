@@ -1,9 +1,15 @@
 package com.randeejia.updateapp.download;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.randeejia.updateapp.bean.DownloadBean;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 
 /**
@@ -14,8 +20,24 @@ public class DownloadManager implements IDownload {
 
 
     private static DownloadManager downloadManager;
+    private final ConnectivityManager mConnectMgr;
     private DownloadBean mDownloadBean;
     private Context mContext;
+
+    // 重点:发生从wifi切换到4g时,提示用户是否需要继续播放,此处有两种做法:
+    private BroadcastReceiver connectionReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            NetworkInfo mobNetInfo = mConnectMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifiNetInfo = mConnectMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mobNetInfo.isConnected() && !wifiNetInfo.isConnected()) {
+                stop();
+            }
+        }
+    };
 
     /**
      * 下载回调接口
@@ -47,6 +69,11 @@ public class DownloadManager implements IDownload {
     private DownloadManager(Context context,DownloadBean downloadBean) {
         mContext = context;
         mDownloadBean = downloadBean;
+
+        mConnectMgr = (ConnectivityManager)mContext.getSystemService(CONNECTIVITY_SERVICE);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        mContext.registerReceiver(connectionReceiver,intentFilter);
     }
 
     public static DownloadManager getInstance(Context context,DownloadBean downloadBean){
@@ -70,6 +97,7 @@ public class DownloadManager implements IDownload {
 
     @Override
     public void stop() {
+        mContext.unregisterReceiver(connectionReceiver);
         stopService();
     }
 
