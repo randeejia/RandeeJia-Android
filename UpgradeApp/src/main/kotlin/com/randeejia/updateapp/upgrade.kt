@@ -8,7 +8,7 @@ import com.randeejia.lib.updateapp.bean.DownloadBean
 import com.randeejia.lib.updateapp.download.DownloadManager
 import com.randeejia.lib.updateapp.download.IDownload
 import com.randeejia.updateapp.BuildConfig
-import com.randeejia.updateapp.bean.UpdateBean
+import com.randeejia.lib.updateapp.bean.UpdateBean
 import java.io.File
 
 
@@ -28,8 +28,7 @@ interface IUpgrade {
     fun upgrade(callback: UpgradeManager.UpgradeCallback)
 }
 
-
-object UpgradeManager :IUpgrade{
+ object UpgradeManager :IUpgrade{
 
     val TAG = "UpgradeManager"
 
@@ -86,9 +85,9 @@ object UpgradeManager :IUpgrade{
     fun setUpdateBean(updateBean: UpdateBean) {
         this.mUpdateBean = updateBean
 
-        mOutputFile = getDownloadApk(updateBean.getNameFromUrl())
+        mOutputFile = getDownloadApk(mUpdateBean.getDownloadFileNameFromUrl())
 
-        var downloadBean = DownloadBean(mUpdateBean.updateUrl, mOutputFile.absolutePath)
+        var downloadBean = DownloadBean(mUpdateBean.downloadUrl, mOutputFile.absolutePath)
 
         DownloadManager.mContext = mContext
         DownloadManager.mDownloadBean = downloadBean
@@ -122,11 +121,13 @@ object UpgradeManager :IUpgrade{
 
         if (isCanUpgrade()) {
 
+            this.mUpgradeCallback = callback
+
             if (mUpgradeCallback != null) {
                 mUpgradeCallback.onStart()
             }
 
-            this.mUpgradeCallback = callback
+
 
             if (!mOutputFile.exists()) {//如果文件不存在，则开始下载Apk
                 download.start(object : DownloadManager.DownloadCallback {

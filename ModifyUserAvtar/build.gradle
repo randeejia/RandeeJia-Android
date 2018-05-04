@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
@@ -26,6 +27,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     implementation project(':RandeeJiaUtil')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 publish {
@@ -35,4 +37,7 @@ publish {
     publishVersion = '1.0.12'    //compile引用时的第3部分版本号
     desc = 'Modify User Avatar'
     website = 'https://github.com/randeejia/RandeeJia-Android'
+}
+repositories {
+    mavenCentral()
 }
