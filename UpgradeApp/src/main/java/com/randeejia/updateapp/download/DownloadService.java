@@ -52,7 +52,7 @@ public class DownloadService extends IntentService{
 
     public DownloadService() {
         super(TAG);
-        mConnectMgr = (ConnectivityManager)getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
+        mConnectMgr = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(connectionReceiver,intentFilter);
