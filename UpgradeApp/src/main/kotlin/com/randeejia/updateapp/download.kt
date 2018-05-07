@@ -32,7 +32,6 @@ object DownloadManager:IDownload{
 
     lateinit var mContext:Context
     lateinit var mDownloadBean:DownloadBean
-    var mDownloadService = DownloadService()
 
     interface DownloadCallback{
         /**
@@ -72,13 +71,13 @@ object DownloadManager:IDownload{
     }
 
     private fun startService(){
-        var intent = Intent(mContext,mDownloadService.javaClass)
+        var intent = Intent(mContext,DownloadService.javaClass)
         intent.putExtra(DownloadService.DOWNLOAD_BEAN,mDownloadBean)
         mContext.startService(intent)
     }
 
     private fun stopService(){
-        var intent = Intent(mContext,mDownloadService.javaClass)
+        var intent = Intent(mContext,DownloadService.javaClass)
         mContext.stopService(intent)
     }
 
